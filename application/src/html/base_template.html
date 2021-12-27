@@ -20,63 +20,154 @@
 
 </head>
 
-<body>
+<body class="bg-secondary">
     <!--navbar-->
-    <div class="container mt-5">
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="images/wplogo.png" alt="WikiPathia logo" height="35"
-                        class="d-inline-block align-text-top">
-                    WikiPathia
-                </a>
+    <div class="container bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border border-secondary ">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="base_template.html">WikiPathia</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="base_template.html">Start</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                API
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="https://app.swaggerhub.com/apis/TobiasSvenssonDev/WikiPathia/1" target="_blank">Dokumentation</a></li>
+                                <li><a class="dropdown-item" href="https://github.com/GabrielModin/WikiPathia" target="_blank">Git</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>
     <!--navbar end-->
 
     <!--content-->
-    <div class="container mt-5">
-        <div class="row justify-content-start bg-light" id="destinations">
-            <div class="col-4">
-                <form>
-                    <div class="mb-3">
-                        <span class="input-group-text">Från</span>
-                        <input type="text" class="form-control" id="origin-stop">
 
+    <div class="container bg-light">
+        <div class="row row-cols-2 g-2 g-lg-3 justify-content-center">
+            <div class="col-4 mb-2 mt-5">
+                <div class="container col-12 pt-3 shadow p-3 mb-5 bg-body rounded">
+                    <div class="row justify-content-start " id="destinations">
+                        <div class="col-12 ">
+                            <form>
+                                <div class="mb-3">
+                                    <span class="input-group-text">Från</span>
+                                    <input type="text" class="form-control" id="origin-stop">
+
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">Till</span>
+                                    <input type="text" class="form-control" id="toDestination">
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Sök rutt</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <span class="input-group-text">Till</span>
-                        <input type="text" class="form-control" id="toDestination">
+                </div>
+                <div class="container col-12 shadow p-3 mb-5 bg-body rounded">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">List group item heading</h5>
+                            </div>
+                            <p class="mb-1">Some placeholder content in a paragraph.</p>
+                            <small>And some small print.</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">List group item heading</h5>
+
+                            </div>
+                            <p class="mb-1">Some placeholder content in a paragraph.</p>
+                            <small class="text-muted">And some muted small print.</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">List group item heading</h5>
+
+                            </div>
+                            <p class="mb-1">Some placeholder content in a paragraph.</p>
+                            <small class="text-muted">And some muted small print.</small>
+                        </a>
                     </div>
-                    <button type="submit" class="btn btn-primary">Sök rutt</button>
-                </form>
+                </div>
+            </div>
+            <div class="col-7 shadow p-3 mt-5 mb-5 bg-body rounded ">
+                <h1>Huvudrubrik</h1>
+                <h2>Rubrik</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                    molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                    numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                    optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+                    obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+                    nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+                    tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+                    quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
+                    sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
+                    recusandae alias error harum maxime adipisci amet laborum. Perspiciatis
+                    minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
+                    quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur
+                    fugiat, temporibus enim commodi iusto libero magni deleniti quod quam
+                    consequuntur! Commodi minima excepturi repudiandae velit hic maxime
+                    doloremque. Quaerat provident commodi consectetur veniam similique ad
+                    earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo
+                    fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore
+                    suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
+                    modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam
+                    totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam
+                    quasi aliquam eligendi, placeat qui corporis!
+                </p>
+                <h2>Rubrik</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                    molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                    numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                    optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+                    obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+                    nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+                    tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+                    quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
+                    sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
+                    recusandae alias error harum maxime adipisci amet laborum. Perspiciatis
+                    minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
+                    quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur
+                    fugiat, temporibus enim commodi iusto libero magni deleniti quod quam
+                    consequuntur! Commodi minima excepturi repudiandae velit hic maxime
+                    doloremque. Quaerat provident commodi consectetur veniam similique ad
+                    earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo
+                    fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore
+                    suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
+                    modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam
+                    totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam
+                    quasi aliquam eligendi, placeat qui corporis!
+                </p>
             </div>
 
-        </div>
-        <div class="row justify-content-center">
 
-        </div>
-        <div class="row justify-content-end">
-            <div class="col-4">
-                Artikel
-            </div>
 
-        </div>
-        <div class="row justify-content-around">
 
-        </div>
-        <div class="row justify-content-between">
-            <div class="col-4">
-                Artiklar
-            </div>
 
         </div>
 
     </div>
 
-    </div>
-    <div id="footer">
+
+
+
+    <div id="footer" class="footer mt-5 bg-dark">
 
     </div>
 
