@@ -1,4 +1,4 @@
-package com.wikipathia.application.model;
+package com.wikipathia.application.model.wiki;
 
 
 

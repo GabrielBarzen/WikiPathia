@@ -1,20 +1,11 @@
 package com.wikipathia.application.controller;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.wikipathia.application.model.Stop;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.boot.json.JsonParser;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import com.wikipathia.application.model.trafficlab.Stop;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 public class IndexController {

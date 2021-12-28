@@ -3,10 +3,9 @@ package com.wikipathia.application.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.wikipathia.application.model.WikipediaPage;
+import com.wikipathia.application.model.wiki.WikipediaPage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
