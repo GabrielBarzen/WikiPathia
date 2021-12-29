@@ -46,13 +46,12 @@ public class WikipediaService {
 
         List<WikipediaPage> wikiPages = new ArrayList<>();
         Gson gson = new Gson();
-        System.out.println();
+
         for (Map.Entry<String,JsonElement> entry : entrySet) {
             WikipediaPage page = gson.fromJson(entry.getValue(),WikipediaPage.class);
-
             wikiPages.add(page);
         }
-        System.out.println();
+
 
         return wikiPages;
     }
