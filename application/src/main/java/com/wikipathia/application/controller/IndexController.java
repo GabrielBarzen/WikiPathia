@@ -10,10 +10,6 @@ import java.util.ArrayList;
 @RestController
 public class IndexController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getIndex() {
-        return "TODO: INDEX PAGE"; //TODO: index-page
-    }
 
     @RequestMapping(value = "/stops", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getTest() {
@@ -52,5 +48,18 @@ public class IndexController {
     public String getApiDocumentationPage(@PathVariable("id") int id) {
         return "TODO: DOCUMENTATION PAGE" + id; //TODO: Doc-page
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getIndex() {
+        StringBuilder current = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader("/html/base_template.html"))) {
+            current.append(reader.readLine());
+        } catch (Exception e) {
+
+        }
+
+        return current.toString();
+    }
+
 
 }
