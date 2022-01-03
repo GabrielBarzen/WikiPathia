@@ -7,5 +7,6 @@ public class Stop{
 
     public int id;
     public String name;
+    public double lon, lat;
 
 }

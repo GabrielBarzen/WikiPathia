@@ -51,15 +51,15 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getIndex() {
-        StringBuilder current = new StringBuilder();
-        try(BufferedReader reader = new BufferedReader(new FileReader("/html/base_template.html"))) {
-            current.append(reader.readLine());
+        StringBuilder builder = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader("src/html/base_template.html"))) {
+            String currentLine = "";
+            do builder.append(currentLine = reader.readLine());
+            while (currentLine != null);
         } catch (Exception e) {
-
+            System.out.println("No such file");
         }
-
-        return current.toString();
+        System.out.println(builder);
+        return builder.toString();
     }
-
-
 }
