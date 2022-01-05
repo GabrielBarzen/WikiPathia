@@ -1,14 +1,11 @@
 package com.wikipathia.application.controller;
 
 import com.google.gson.*;
-import com.wikipathia.application.model.trafficlab.Stop;
-import com.wikipathia.application.model.trafficlab.Trip;
-import com.wikipathia.application.model.wiki.WikipediaPage;
+import com.wikipathia.application.model.trafiklab.Route;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.*;
 
 public class TrafikLabService {
 
@@ -33,8 +30,8 @@ public class TrafikLabService {
         return key;
     }
 
-    public Trip[] getRouteFromID(int stopIdOrigin, int stopIdDestination) {
-        Trip[] trip;
+    public Route getRouteFromID(int stopIdOrigin, int stopIdDestination) {
+        Route routes;
 
 
         //String routeJSON = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
@@ -1027,10 +1024,10 @@ public class TrafikLabService {
 
        Gson gson = new Gson();
 
-       trip = gson.fromJson(fugma, Trip[].class);
+       routes = gson.fromJson(fugma, Route.class);
 
 
-       if(tripJson != null) {
+       /*if(tripJson != null) {
            JsonElement jsonElementOrigin = JsonParser.parseString(tripJson);
 
            JsonElement tripJsonObject = jsonElementOrigin.getAsJsonObject().get("Trip");
@@ -1075,22 +1072,21 @@ public class TrafikLabService {
 
        } else {
 
-       }
+       }*/
 
-        System.out.println("TRIP ----------------------------------------------------------------------> " + trip);
 
-       return trip;
+       return routes;
     }
 
-    public Trip[] getRouteFromCoordinates(double latOrigin, double lonOrigin, double latDestination, double lonDestination) {
-        Trip[] trip = new Trip[1];
+    public Route getRouteFromCoordinates(double latOrigin, double lonOrigin, double latDestination, double lonDestination) {
+        Route route = new Route();
 
         String originJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latOrigin}&originCoordLong={lonOrigin}&key={apiKey}" , latOrigin,lonOrigin,apiKey)
                 .retrieve().bodyToMono(String.class).block();
 
         String destinationJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latDestination}&originCoordLong={lonDestination}&key={apiKey}" , latDestination,lonDestination,apiKey)
                 .retrieve().bodyToMono(String.class).block();
-
+        /*
         if(originJSON != null && destinationJSON != null) {
             JsonElement jsonElementOrigin = JsonParser.parseString(originJSON);
             JsonElement jsonElementDestination = JsonParser.parseString(destinationJSON);
@@ -1118,6 +1114,7 @@ public class TrafikLabService {
             trip = null;
         }
 
-        return trip;
+        return trip;*/
+        return route;
     }
 }

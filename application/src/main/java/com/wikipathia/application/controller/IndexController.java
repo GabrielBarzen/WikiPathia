@@ -1,6 +1,6 @@
 package com.wikipathia.application.controller;
 import com.google.gson.Gson;
-import com.wikipathia.application.model.trafficlab.Stop;
+import com.wikipathia.application.model.trafiklab.Stop;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,8 @@ public class IndexController {
             reader.readLine();
             while ((current = reader.readLine()) != null) {
                 Stop stop = new Stop();
-                stop.id = Integer.parseInt(current.split(",")[0]);
-                stop.name = current.split(",")[1];
+                stop.setId(String.valueOf(Integer.parseInt(current.split(",")[0])));
+                stop.setName( current.split(",")[1]);
                 stops.add(stop);
             }
         } catch (Exception e) {
