@@ -42,7 +42,7 @@ public class IndexController {
         
         ArrayList<WikipediaPages> pageList = new ArrayList<>();
         List<Leg> legs = route.getTrip().get(0).getLegList().getLeg();
-
+        WikipediaPages page;
         for (int legCount = 0; legCount < legs.size(); legCount++) {
 
             if (legs.get(legCount).getStops() != null) {
@@ -51,70 +51,48 @@ public class IndexController {
                     Stop stop = stops.get(stopCount);
                     double stopLat = stop.getLat();
                     double stopLon = stop.getLon();
-                    WikipediaPages page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
-                    page.setQueryLat(stopLat);
-                    page.setQueryLon(stopLon);
-                    page.setStopName(stop.getName());
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stop.getName());
                     pageList.add(page);
                 }
                 if (legCount == legs.size() - 1) {
                     Destination stop = legs.get(legs.size() - 1).getDestination();
                     double stopLat = stop.getLat();
                     double stopLon = stop.getLon();
-                    WikipediaPages page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
-                    page.setQueryLat(stopLat);
-                    page.setQueryLon(stopLon);
-                    page.setStopName(stop.getName());
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stop.getName());
                     pageList.add(page);
                 }
             } else {
                 Destination stopDestination = legs.get(legs.size() - 1).getDestination();
                 Origin stopOrigin = legs.get(legs.size() - 1).getOrigin();
-
-
                     double stopLat = stopOrigin.getLat();
                     double stopLon = stopOrigin.getLon();
-                    WikipediaPages page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
-                    page.setQueryLat(stopLat);
-                    page.setQueryLon(stopLon);
-                    page.setStopName(stopOrigin.getName());
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stopOrigin.getName());
                     pageList.add(page);
 
                 if (legCount == legs.size() - 1) {
                     stopLat = stopDestination.getLat();
                     stopLon = stopDestination.getLon();
                     page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
-                    page.setQueryLat(stopLat);
-                    page.setQueryLon(stopLon);
-                    page.setStopName(stopOrigin.getName());
+
+                    configPages(page,stopLat,stopLon,stopDestination.getName());
                     pageList.add(page);
                 }
             }
         }
 
-
-
-
-        /*for (Leg leg : legs) {
-            System.out.println("brrrrrrrrrrrrrr");
-
-            if (leg.getStops().getStop() != null) {
-                List<Stop> stops = leg.getStops().getStop();
-
-                for (Stop stop : stops) {
-                    double stopLat = stop.getLat();
-                    double stopLon = stop.getLon();
-                    pageList.add(wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon));
-                }
-            }
-        }*/
         Gson gson = new Gson();
         String json = gson.toJson(pageList);
-
-
-        return json; //TODO: Doc-page
+        return json;
     }
 
+    private void configPages(WikipediaPages page, double lat, double lon, String stopName ) {
+        page.setQueryLat(lat);
+        page.setQueryLon(lon);
+        page.setStopName(stopName);
+    }
 
     @RequestMapping(value = "/api/documentation", method = RequestMethod.GET)
     public String getApiDocumentation() {
