@@ -1,26 +1,21 @@
 package com.wikipathia.application;
 
+import com.wikipathia.application.controller.MainController;
 import com.wikipathia.application.controller.TrafikLabService;
 import com.wikipathia.application.controller.WikipediaService;
 
-import com.wikipathia.application.model.trafiklab.Route;
+import com.wikipathia.application.model.trafiklab.route.Route;
+import com.wikipathia.application.model.wiki.pages.WikipediaPages;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 public class Application {
 
-
 	public static void main(String[] args) {
-		WikipediaService wikiService = new WikipediaService(WebClient.builder());
-		TrafikLabService trafService = new TrafikLabService(WebClient.builder());
-		//SpringApplication.run(Application.class, args);
-		Route route = trafService.getRouteFromID(740039295,740026031);
-		System.out.println("TRIP ----------------------------------------------------------------------> " + route.getTrip().get(0).getCtxRecon());
-
-
-
-
+		MainController controller = new MainController(args);
+		SpringApplication.run(Application.class, args);
 
 	}
 

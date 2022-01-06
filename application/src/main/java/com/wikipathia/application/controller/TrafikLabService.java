@@ -1,7 +1,7 @@
 package com.wikipathia.application.controller;
 
 import com.google.gson.*;
-import com.wikipathia.application.model.trafiklab.Route;
+import com.wikipathia.application.model.trafiklab.route.Route;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
@@ -34,10 +34,10 @@ public class TrafikLabService {
         Route routes;
 
 
-        //String routeJSON = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
-        //        .retrieve().bodyToMono(String.class).block();
+        String routeJson = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
+                .retrieve().bodyToMono(String.class).block();
 
-       String tripJson = """
+       /*String routeJson = """
                {
                  "Trip" : [ {
                    "ServiceDays" : [ {
@@ -1018,67 +1018,17 @@ public class TrafikLabService {
                  } ],
                  "scrB" : "1|OB|MT?11?9846?9846?10584?10584?0?0?5?9597?1?-2147483598?0?1?2|PDH?68d95d88282023ed4bf842a7f99a7e70|RD?3012022|RT?155708",
                  "scrF" : "1|OF|MT?11?9846?9846?10584?10584?0?0?5?9597?1?-2147483598?0?1?2|PDH?68d95d88282023ed4bf842a7f99a7e70|RD?3012022|RT?155708"
-               }""";
+               }""";*/
 
-       JsonElement fugma = JsonParser.parseString(tripJson);
 
        Gson gson = new Gson();
 
-       routes = gson.fromJson(fugma, Route.class);
-
-
-       /*if(tripJson != null) {
-           JsonElement jsonElementOrigin = JsonParser.parseString(tripJson);
-
-           JsonElement tripJsonObject = jsonElementOrigin.getAsJsonObject().get("Trip");
-
-           JsonElement legList = tripJsonObject.getAsJsonArray().get(0).getAsJsonObject().get("LegList").getAsJsonObject().get("Leg");
-
-           JsonArray legs = legList.getAsJsonArray();
-
-           System.out.println(legs);
-
-           for (int i = 0; i < legs.size(); i++) {
-               JsonElement leg = legs.get(i);
-               JsonElement stops = leg.getAsJsonObject().get("Stops");
-
-               if (stops != null) {
-                   JsonElement stop = stops.getAsJsonObject().get("Stop");
-
-                   JsonArray stopArray = stop.getAsJsonArray();
-
-                   for (int j = 0; j < stopArray.size(); j++) {
-                       JsonElement objäkt = stopArray.get(j);
-                       System.out.println();
-                       System.out.println(objäkt);
-                       System.out.println();
-
-                   }
-               } else {
-                   JsonElement origin = leg.getAsJsonObject().get("Origin");
-                   JsonElement destination = leg.getAsJsonObject().get("Destination");
-                   System.out.println();
-                   System.out.println(origin);
-                   System.out.println();
-                   System.out.println();
-                   System.out.println(destination);
-                   System.out.println();
-
-               }
-           }
-
-
-
-
-       } else {
-
-       }*/
-
+       routes = gson.fromJson(routeJson, Route.class);
 
        return routes;
     }
 
-    public Route getRouteFromCoordinates(double latOrigin, double lonOrigin, double latDestination, double lonDestination) {
+    /*public Route getRouteFromCoordinates(double latOrigin, double lonOrigin, double latDestination, double lonDestination) {
         Route route = new Route();
 
         String originJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latOrigin}&originCoordLong={lonOrigin}&key={apiKey}" , latOrigin,lonOrigin,apiKey)
@@ -1086,35 +1036,7 @@ public class TrafikLabService {
 
         String destinationJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latDestination}&originCoordLong={lonDestination}&key={apiKey}" , latDestination,lonDestination,apiKey)
                 .retrieve().bodyToMono(String.class).block();
-        /*
-        if(originJSON != null && destinationJSON != null) {
-            JsonElement jsonElementOrigin = JsonParser.parseString(originJSON);
-            JsonElement jsonElementDestination = JsonParser.parseString(destinationJSON);
 
-            JsonElement origin = jsonElementOrigin.getAsJsonObject().get("StopLocation");
-            JsonElement destination = jsonElementDestination.getAsJsonObject().get("StopLocation");
-
-            JsonElement originArray = origin.getAsJsonArray();
-            JsonElement destinationArray = destination.getAsJsonArray();
-
-            Gson gson = new Gson();
-
-            Stop[] originStops = gson.fromJson(originArray, Stop[].class);
-            Stop[] destinationStops = gson.fromJson(destinationArray, Stop[].class);
-
-            Stop originStop = originStops[0];
-            Stop destinationStop = destinationStops[0];
-
-            int routeorigin = originStop.id;
-            int routeDest = destinationStop.id;
-
-            trip = getRouteFromID(routeorigin, routeDest);
-
-        } else {
-            trip = null;
-        }
-
-        return trip;*/
         return route;
-    }
+    }*/ //TODO ifall man pallar
 }
