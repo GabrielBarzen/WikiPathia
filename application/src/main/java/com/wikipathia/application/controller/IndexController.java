@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -89,9 +90,22 @@ public class IndexController {
         WikipediaPages page = service.getWikipediaPagesFromCoordinates(lat, lon);
 
         wikiPathStop.setPages(page.getQuery().getGeosearch());
+
         wikiPathStop.setQueryLat(lat);
         wikiPathStop.setQueryLon(lon);
         wikiPathStop.setStopName(stop.getName());
+        /*
+        for (Map.Entry<String, String> entry : param.entrySet()) {
+            switch (entry.getKey()) {
+                case "showTimes" :
+                    if (entry.getValue().equals("true")){
+                        wikiPathStop.setArrivalTime(stop.getArrTime());
+                        wikiPathStop.setDepartureTime(stop.getDepTime());
+                        System.out.println("set times in json");
+                    }
+            }
+        }
+        */
 
         path.add(wikiPathStop);
     }
