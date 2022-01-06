@@ -2,6 +2,8 @@ package com.wikipathia.application.controller;
 
 import com.google.gson.*;
 import com.wikipathia.application.model.trafiklab.route.Route;
+import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
+import org.springframework.http.codec.xml.Jaxb2XmlEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
