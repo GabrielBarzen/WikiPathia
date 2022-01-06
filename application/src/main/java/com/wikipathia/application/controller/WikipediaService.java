@@ -27,6 +27,8 @@ public class WikipediaService {
         Gson gson = new Gson();
         pages = gson.fromJson(json , WikipediaPages.class);
 
+        System.out.println(gson.toJson(pages));
+
         return pages;
     }
 
