@@ -94,7 +94,7 @@ public class IndexController {
         wikiPathStop.setQueryLat(lat);
         wikiPathStop.setQueryLon(lon);
         wikiPathStop.setStopName(stop.getName());
-        /*
+
         for (Map.Entry<String, String> entry : param.entrySet()) {
             switch (entry.getKey()) {
                 case "showTimes" :
@@ -103,9 +103,10 @@ public class IndexController {
                         wikiPathStop.setDepartureTime(stop.getDepTime());
                         System.out.println("set times in json");
                     }
+                    break;
             }
         }
-        */
+
 
         path.add(wikiPathStop);
     }

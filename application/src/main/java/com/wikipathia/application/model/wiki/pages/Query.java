@@ -10,16 +10,16 @@ import com.google.gson.annotations.SerializedName;
 public class Query {
 
 
-    @SerializedName("geoSearch")
+    @SerializedName("geosearch")
     @Expose
-    private List<Geosearch> geosearches = null;
+    private List<Geosearch> geosearch = null;
 
     public List<Geosearch> getGeosearch() {
-        return geosearches;
+        return geosearch;
     }
 
     public void setGeosearch(List<Geosearch> geosearch) {
-        this.geosearches = geosearch;
+        this.geosearch = geosearch;
     }
 
 }
