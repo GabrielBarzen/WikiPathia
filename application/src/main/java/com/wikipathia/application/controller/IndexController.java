@@ -1,19 +1,16 @@
 package com.wikipathia.application.controller;
 import com.google.gson.Gson;
-import com.wikipathia.application.model.trafficlab.Stop;
+import com.wikipathia.application.model.trafiklab.route.*;
+import com.wikipathia.application.model.wiki.pages.WikipediaPages;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class IndexController {
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getIndex() {
-        return "TODO: INDEX PAGE"; //TODO: index-page
-    }
 
     @RequestMapping(value = "/stops", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getTest() {
@@ -23,8 +20,8 @@ public class IndexController {
             reader.readLine();
             while ((current = reader.readLine()) != null) {
                 Stop stop = new Stop();
-                stop.id = Integer.parseInt(current.split(",")[0]);
-                stop.name = current.split(",")[1];
+                stop.setId(String.valueOf(Integer.parseInt(current.split(",")[0])));
+                stop.setName( current.split(",")[1]);
                 stops.add(stop);
             }
         } catch (Exception e) {
@@ -34,8 +31,67 @@ public class IndexController {
         Gson gson  = new Gson();
         String json = gson.toJson(stops);
 
-
         return json;
+    }
+    @RequestMapping(value = "/api/routeArticles", method = RequestMethod.GET)
+    public String getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId) {
+        TrafikLabService trafikLabService = MainController.getTrafikLabService();
+        WikipediaService wikipediaService = MainController.getWikiService();
+
+        Route route = trafikLabService.getRouteFromID(originId,destinationId);
+        
+        ArrayList<WikipediaPages> pageList = new ArrayList<>();
+        List<Leg> legs = route.getTrip().get(0).getLegList().getLeg();
+        WikipediaPages page;
+        for (int legCount = 0; legCount < legs.size(); legCount++) {
+
+            if (legs.get(legCount).getStops() != null) {
+                List<Stop> stops = legs.get(legCount).getStops().getStop();
+                for (int stopCount = 0; stopCount < stops.size() - 1; stopCount++) {
+                    Stop stop = stops.get(stopCount);
+                    double stopLat = stop.getLat();
+                    double stopLon = stop.getLon();
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stop.getName());
+                    pageList.add(page);
+                }
+                if (legCount == legs.size() - 1) {
+                    Destination stop = legs.get(legs.size() - 1).getDestination();
+                    double stopLat = stop.getLat();
+                    double stopLon = stop.getLon();
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stop.getName());
+                    pageList.add(page);
+                }
+            } else {
+                Destination stopDestination = legs.get(legs.size() - 1).getDestination();
+                Origin stopOrigin = legs.get(legs.size() - 1).getOrigin();
+                    double stopLat = stopOrigin.getLat();
+                    double stopLon = stopOrigin.getLon();
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+                    configPages(page,stopLat,stopLon,stopOrigin.getName());
+                    pageList.add(page);
+
+                if (legCount == legs.size() - 1) {
+                    stopLat = stopDestination.getLat();
+                    stopLon = stopDestination.getLon();
+                    page = wikipediaService.getWikipediaPagesFromCoordinates(stopLat, stopLon);
+
+                    configPages(page,stopLat,stopLon,stopDestination.getName());
+                    pageList.add(page);
+                }
+            }
+        }
+
+        Gson gson = new Gson();
+        String json = gson.toJson(pageList);
+        return json;
+    }
+
+    private void configPages(WikipediaPages page, double lat, double lon, String stopName ) {
+        page.setQueryLat(lat);
+        page.setQueryLon(lon);
+        page.setStopName(stopName);
     }
 
     @RequestMapping(value = "/api/documentation", method = RequestMethod.GET)
@@ -53,4 +109,17 @@ public class IndexController {
         return "TODO: DOCUMENTATION PAGE" + id; //TODO: Doc-page
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getIndex() {
+        StringBuilder builder = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader("src/html/base_template.html"))) {
+            String currentLine = "";
+            do builder.append(currentLine = reader.readLine());
+            while (currentLine != null);
+        } catch (Exception e) {
+            System.out.println("No such file");
+        }
+        System.out.println(builder);
+        return builder.toString();
+    }
 }
