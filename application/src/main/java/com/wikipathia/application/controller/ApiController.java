@@ -53,7 +53,6 @@ public class ApiController {
         WikiPath path = new WikiPath();
 
         for (int legCount = 0; legCount < legs.size(); legCount++) {
-
             if (legs.get(legCount).getStops() != null) {
                 List<Stop> stops = legs.get(legCount).getStops().getStop();
                 for (int stopCount = 0; stopCount < stops.size() - 1; stopCount++) {
@@ -63,20 +62,17 @@ public class ApiController {
 
                 }
                 if (legCount == legs.size() - 1) {
-                    Destination stop = legs.get(legs.size() - 1).getDestination();
-
+                    Stop stop = legs.get(stops.size()-1).getDestination();
                     configWikiPathStop(path ,wikipediaService,stop,parameters);
-
                 }
             } else {
-                Destination stopDestination = legs.get(legs.size() - 1).getDestination();
-                Origin stopOrigin = legs.get(legs.size() - 1).getOrigin();
 
-                configWikiPathStop(path ,wikipediaService,stopOrigin,parameters);
+                Stop stop = legs.get(legCount).getOrigin();
+                configWikiPathStop(path ,wikipediaService,stop,parameters);
 
                 if (legCount == legs.size() - 1) {
-
-                    configWikiPathStop(path ,wikipediaService,stopDestination,parameters);
+                    stop = legs.get(legCount).getDestination();
+                    configWikiPathStop(path ,wikipediaService,stop,parameters);
 
                 }
             }
@@ -92,6 +88,7 @@ public class ApiController {
         double lon = stop.getLon();
 
         int numArticles = 5;
+        int geoRadius = 10000;
 
         WikiPathStop wikiPathStop = new WikiPathStop();
 
@@ -106,11 +103,20 @@ public class ApiController {
                     break;
                 case "numArticles" :
                     try {
-                        System.out.println("Setting num articles");
+                        System.out.println("Setting numArticles");
                         numArticles = Integer.parseInt(entry.getValue());
                     } catch (NumberFormatException e ) {
-                        System.out.println("Not a number using default");
+                        System.out.println("Not a number using default for numArticles");
                         numArticles = 5;
+                    }
+                    break;
+                case "geoRadius" :
+                    try {
+                        System.out.println("Setting geoRadius");
+                        geoRadius = Integer.parseInt(entry.getValue());
+                    } catch (NumberFormatException e ) {
+                        System.out.println("Not a number using default for geoRadius");
+                        geoRadius = 10000;
                     }
                     break;
                 default:
@@ -119,7 +125,7 @@ public class ApiController {
         }
 
 
-        WikipediaPages page = service.getWikipediaPagesFromCoordinates(lat, lon,10000,numArticles);
+        WikipediaPages page = service.getWikipediaPagesFromCoordinates(lat, lon,geoRadius,numArticles);
 
         wikiPathStop.setPages(page.getQuery().getGeosearch());
 
