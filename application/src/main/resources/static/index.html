@@ -62,17 +62,17 @@
     <div class="container bg-light">
         <div class="row row-cols-2 g-2 g-lg-3 justify-content-center">
             <div class="col-4 mb-2 mt-5">
-                <div class="container col-12 pt-3 shadow p-3 mb-5 bg-body rounded overflow-hidden" >
+                <div class="container col-12 pt-3 shadow p-3 mb-5 bg-body rounded " >
                     <div class="row justify-content-start " id="destinations">
-                        <div class="col-12 overflow-hidden" style="max-height: 15em;">
+                        <div class="col-12 " style="max-height: 15em;">
                             <!--<form autocomplete="off">-->
                                 <div class="mb-3">
                                     <span class="input-group-text">Från</span>
-                                    <input type="text" class="form-control overflow-hidden" id="origin-stop" style="max-height: 4em;">
+                                    <input type="text" class="form-control " id="origin-stop" style="max-height: 4em;">
 
                                 </div>
-                                <div class="mb-3 sticky-top">
-                                    <span class="input-group-text">Till</span>
+                                <div class="mb-3 sticky-top" id="till-box" >
+                                    <span class="input-group-text" >Till</span>
                                     <input type="text" class="form-control autocomplete" id="destination-stop">
                                 </div>
                                 <input type="button" id="button-search-route" onclick="buttonSearchRoutePressed()" class="btn btn-secondary" value="Sök rutt">
