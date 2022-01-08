@@ -56,11 +56,12 @@ function buttonSearchRoutePressed(){
         });
 }
 
-function autocomplete(inp, arr, isOrigin) {
+function autocomplete(inp, arr, isOrigin, limit) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
     /*execute a function when someone writes in the text field:*/
+    limit = limit || 10;
     inp.addEventListener("input", function(e) {
         var a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
@@ -69,8 +70,14 @@ function autocomplete(inp, arr, isOrigin) {
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
         a = document.createElement("DIV");
+        
         a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("style", "max-height: 150px;");
+        a.setAttribute("class", "d-inline")
+        a.setAttribute("class", "overflow-auto")
         a.setAttribute("class", "autocomplete-items");
+        
+        
         /*append the DIV element as a child of the autocomplete container:*/
         this.parentNode.appendChild(a);
         /*for each item in the array...*/
@@ -79,6 +86,8 @@ function autocomplete(inp, arr, isOrigin) {
             if (arr[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
                 /*create a DIV element for each matching element:*/
                 b = document.createElement("DIV");
+                b.setAttribute("style", "background-color: white;");
+                b.setAttribute("style", "border-bottom: 1px dotted #999;");
                 /*make the matching letters bold:*/
                 b.innerHTML = "<strong>" + arr[i].name.substr(0, val.length) + "</strong>";
                 b.innerHTML += arr[i].name.substr(val.length);
