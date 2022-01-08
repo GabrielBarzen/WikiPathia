@@ -6,13 +6,13 @@ import com.wikipathia.application.model.WikiPathStop;
 import com.wikipathia.application.model.trafiklab.route.*;
 import com.wikipathia.application.model.wiki.pages.WikipediaPages;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +20,7 @@ import java.util.Map;
 @RestController
 public class ApiController {
     @RequestMapping(value = "/stops", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getTest() {
-        System.out.println("getting stops");
+    public String getStops() {
         ArrayList<Stop> stops = new ArrayList<>();
         try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/static/stops.csv"))) {
             String current;
@@ -42,6 +41,24 @@ public class ApiController {
         return json;
     }
 
+    @RequestMapping(value = "/wiki", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getHTML(@RequestParam(required = true, name = "pageid")int pageid) {
+
+        String json = MainController.getWikiService().getWikiHTML(pageid);
+
+        return json;
+    }
+
+    @RequestMapping(value = "/wiki/{page}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public RedirectView wikiRedirect(@PathVariable("page") String page) {
+        RedirectView view = new RedirectView();
+        String pageEncode = URLEncoder.encode(page, StandardCharsets.UTF_8);
+        view.setUrl("https://sv.wikipedia.org/wiki/" + pageEncode);
+
+        return view;
+    }
+
+
     @RequestMapping(value = "/api/routeArticles", method = RequestMethod.GET)
     public String getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
         TrafikLabService trafikLabService = MainController.getTrafikLabService();
@@ -53,7 +70,6 @@ public class ApiController {
         WikiPath path = new WikiPath();
 
         for (int legCount = 0; legCount < legs.size(); legCount++) {
-
             if (legs.get(legCount).getStops() != null) {
                 List<Stop> stops = legs.get(legCount).getStops().getStop();
                 for (int stopCount = 0; stopCount < stops.size() - 1; stopCount++) {
@@ -63,20 +79,17 @@ public class ApiController {
 
                 }
                 if (legCount == legs.size() - 1) {
-                    Destination stop = legs.get(legs.size() - 1).getDestination();
-
+                    Stop stop = legs.get(legs.size()-1).getDestination();
                     configWikiPathStop(path ,wikipediaService,stop,parameters);
-
                 }
             } else {
-                Destination stopDestination = legs.get(legs.size() - 1).getDestination();
-                Origin stopOrigin = legs.get(legs.size() - 1).getOrigin();
 
-                configWikiPathStop(path ,wikipediaService,stopOrigin,parameters);
+                Stop stop = legs.get(legCount).getOrigin();
+                configWikiPathStop(path ,wikipediaService,stop,parameters);
 
                 if (legCount == legs.size() - 1) {
-
-                    configWikiPathStop(path ,wikipediaService,stopDestination,parameters);
+                    stop = legs.get(legCount).getDestination();
+                    configWikiPathStop(path ,wikipediaService,stop,parameters);
 
                 }
             }
@@ -92,6 +105,7 @@ public class ApiController {
         double lon = stop.getLon();
 
         int numArticles = 5;
+        int geoRadius = 10000;
 
         WikiPathStop wikiPathStop = new WikiPathStop();
 
@@ -101,16 +115,25 @@ public class ApiController {
                     if (entry.getValue().equals("true")){
                         wikiPathStop.setArrivalTime(stop.getArrTime());
                         wikiPathStop.setDepartureTime(stop.getDepTime());
-                        System.out.println("set times in json");
+
                     }
                     break;
                 case "numArticles" :
                     try {
-                        System.out.println("Setting num articles");
+
                         numArticles = Integer.parseInt(entry.getValue());
                     } catch (NumberFormatException e ) {
-                        System.out.println("Not a number using default");
+
                         numArticles = 5;
+                    }
+                    break;
+                case "geoRadius" :
+                    try {
+
+                        geoRadius = Integer.parseInt(entry.getValue());
+                    } catch (NumberFormatException e ) {
+
+                        geoRadius = 10000;
                     }
                     break;
                 default:
@@ -119,7 +142,7 @@ public class ApiController {
         }
 
 
-        WikipediaPages page = service.getWikipediaPagesFromCoordinates(lat, lon,10000,numArticles);
+        WikipediaPages page = service.getWikipediaPagesFromCoordinates(lat, lon,geoRadius,numArticles);
 
         wikiPathStop.setPages(page.getQuery().getGeosearch());
 

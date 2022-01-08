@@ -27,9 +27,15 @@ public class WikipediaService {
         Gson gson = new Gson();
         pages = gson.fromJson(json , WikipediaPages.class);
 
-        System.out.println(gson.toJson(pages));
 
         return pages;
+    }
+
+    public String getWikiHTML(int id) {
+        String json = this.client.get().uri("/api.php?action=parse&pageid={id}&prop=text&formatversion=2&format=json", id)
+                .retrieve().bodyToMono(String.class).block();
+
+        return json;
     }
 
 
