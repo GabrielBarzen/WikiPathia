@@ -87,25 +87,23 @@
                 <div class="container col-12 shadow p-3 mb-5 bg-body rounded">
                     <div class="row ">
                         <div class="col-1 text-left">
-                            Bak
+                            <input type="button" value="Bak" onclick="loadPreviousStop()">
                         </div>
                         <div class="col-9 text-center">
-                            Nuvarande
+                            <div id="current-station">Nuvarande station</div>
                         </div>
                         <div class="col-2 text-right">
-                            Fram
+                            <input type="button" value="Nästa" onclick="loadNextStop()">
                         </div>
                     </div>
                     <div class="row pt-1">
                         <div class="col-12 justify-content-center">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    Cras justo odio
-                                </a>
+                            <div class="list-group" id="wiki-articles">
+                                <!--<a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
                                 <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
                                 <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                                 <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                                <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                                <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>!-->
                             </div>
                         </div>
 
@@ -113,7 +111,10 @@
                 </div>
             </div>
             <div class="col-7 shadow p-3 mt-5 mb-5 bg-body rounded" style="max-height: 1080px;">
-                <div class="mh-100 overflow-auto" id="wikiText"></div>
+                <div class="mh-100 overflow-auto">
+                    <h1 id="wiki-title"></h1>
+                    <div  id="wikiText"></div>
+                </div>
             </div>
         </div>
 

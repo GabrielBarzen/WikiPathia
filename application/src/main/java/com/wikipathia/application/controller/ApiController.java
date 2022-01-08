@@ -6,13 +6,13 @@ import com.wikipathia.application.model.WikiPathStop;
 import com.wikipathia.application.model.trafiklab.route.*;
 import com.wikipathia.application.model.wiki.pages.WikipediaPages;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +20,7 @@ import java.util.Map;
 @RestController
 public class ApiController {
     @RequestMapping(value = "/stops", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getTest() {
-        System.out.println("getting stops");
+    public String getStops() {
         ArrayList<Stop> stops = new ArrayList<>();
         try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/static/stops.csv"))) {
             String current;
@@ -41,6 +40,24 @@ public class ApiController {
 
         return json;
     }
+
+    @RequestMapping(value = "/wiki", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getHTML(@RequestParam(required = true, name = "pageid")int pageid) {
+
+        String json = MainController.getWikiService().getWikiHTML(pageid);
+
+        return json;
+    }
+
+    @RequestMapping(value = "/wiki/{page}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public RedirectView wikiRedirect(@PathVariable("page") String page) {
+        RedirectView view = new RedirectView();
+        String pageEncode = URLEncoder.encode(page, StandardCharsets.UTF_8);
+        view.setUrl("https://sv.wikipedia.org/wiki/" + pageEncode);
+
+        return view;
+    }
+
 
     @RequestMapping(value = "/api/routeArticles", method = RequestMethod.GET)
     public String getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
@@ -62,7 +79,7 @@ public class ApiController {
 
                 }
                 if (legCount == legs.size() - 1) {
-                    Stop stop = legs.get(stops.size()-1).getDestination();
+                    Stop stop = legs.get(legs.size()-1).getDestination();
                     configWikiPathStop(path ,wikipediaService,stop,parameters);
                 }
             } else {
@@ -98,24 +115,24 @@ public class ApiController {
                     if (entry.getValue().equals("true")){
                         wikiPathStop.setArrivalTime(stop.getArrTime());
                         wikiPathStop.setDepartureTime(stop.getDepTime());
-                        System.out.println("set times in json");
+
                     }
                     break;
                 case "numArticles" :
                     try {
-                        System.out.println("Setting numArticles");
+
                         numArticles = Integer.parseInt(entry.getValue());
                     } catch (NumberFormatException e ) {
-                        System.out.println("Not a number using default for numArticles");
+
                         numArticles = 5;
                     }
                     break;
                 case "geoRadius" :
                     try {
-                        System.out.println("Setting geoRadius");
+
                         geoRadius = Integer.parseInt(entry.getValue());
                     } catch (NumberFormatException e ) {
-                        System.out.println("Not a number using default for geoRadius");
+
                         geoRadius = 10000;
                     }
                     break;
