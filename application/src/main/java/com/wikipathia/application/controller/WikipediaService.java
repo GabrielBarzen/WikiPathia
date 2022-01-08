@@ -10,7 +10,7 @@ public class WikipediaService {
 
     private final WebClient client;
     public WikipediaService(WebClient.Builder webClientBuilder) {
-        this.client = webClientBuilder.baseUrl("https://en.wikipedia.org/w").build();
+        this.client = webClientBuilder.baseUrl("https://sv.wikipedia.org/w").build();
     }
     public WikipediaPages getWikipediaPagesFromCoordinates(double lat, double lon, int radius) {
         return getWikipediaPagesFromCoordinates(lat,lon,radius,10);
