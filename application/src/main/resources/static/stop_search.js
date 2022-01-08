@@ -20,7 +20,8 @@ window.addEventListener("load", function () {
 
     document.getElementById("wikiText").innerHTML = wikiExample.parse.text;
 
-
+    a = document.getElementById("till-box");
+    $(a).css("z-index", 0);
 
     let call = $.ajax({
         url: '/stops',
@@ -76,8 +77,16 @@ function autocomplete(inp, arr, isOrigin, limit) {
         a.setAttribute("class", "d-inline")
         a.setAttribute("class", "overflow-auto")
         a.setAttribute("class", "autocomplete-items");
-        
-        
+        $(a).css({"max-height": "200px", "overflow": "auto","position": "absolute","display" : "block"});
+        $(a).css("z-index",10000000)
+
+
+        q = document.getElementById("till-box");
+        console.log("width " + $(q).width() )
+        var width = $(q).width()
+        $(a).css("width", width + "px");
+
+
         /*append the DIV element as a child of the autocomplete container:*/
         this.parentNode.appendChild(a);
         /*for each item in the array...*/
