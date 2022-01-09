@@ -4,6 +4,8 @@ import com.google.gson.*;
 import com.wikipathia.application.model.trafiklab.route.Route;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -52,10 +54,14 @@ public class TrafikLabService {
      */
     public Route getRouteFromID(int stopIdOrigin, int stopIdDestination) {
         Route routes;
+        String routeJson;
 
-        String routeJson = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
-                .retrieve().bodyToMono(String.class).block();
-
+        try {
+             routeJson = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
+                    .retrieve().bodyToMono(String.class).block();
+        } catch (WebClientRequestException e) {
+            return new Route();
+        }
 
        Gson gson = new Gson();
 

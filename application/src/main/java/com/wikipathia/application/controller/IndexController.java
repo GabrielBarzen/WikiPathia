@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @ComponentScan
 public class IndexController {
 
+    /**
+     * Method to fetch main HTML-file.
+     * @return index.html file
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getIndex() {
 
