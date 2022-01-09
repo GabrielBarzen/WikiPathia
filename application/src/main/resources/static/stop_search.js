@@ -64,7 +64,7 @@ let currentStop = 0;
 let route;
 
 function loadNextStop(){
-    if (currentStop < route.wikiPath.length){
+    if (currentStop < route.wikiPath.length-1){
         currentStop++;
         loadStop(route);
     } else {
