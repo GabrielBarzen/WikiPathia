@@ -1,6 +1,6 @@
 # WikiPathia
-##Api
-###Api tjänster:
+## Api
+### Api tjänster:
 - https://developer.trafiklab.se/projekt/wikipathia
 - https://www.mediawiki.org/wiki/API:Main_page
 
