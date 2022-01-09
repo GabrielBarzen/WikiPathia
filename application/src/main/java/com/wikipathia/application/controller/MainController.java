@@ -10,6 +10,10 @@ public class MainController {
     private static WikipediaService wikiService;
     private static TrafikLabService trafikLabService;
 
+    /**
+     * Constructor, creates both static service-classes.
+     * @param args
+     */
     public MainController(String[] args){
         wikiService = new WikipediaService(WebClient.builder());
         trafikLabService = new TrafikLabService(WebClient.builder());

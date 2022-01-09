@@ -3,11 +3,11 @@ package com.wikipathia.application.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wikipathia.application.model.wiki.pages.Geosearch;
-import com.wikipathia.application.model.wiki.pages.WikipediaPages;
-
-import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+ */
 public class WikiPathStop {
 
     @SerializedName("pages")

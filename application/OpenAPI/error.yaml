@@ -8,6 +8,17 @@ paths: {}
 
 components:
   schemas:
+    parameter error:
+      required:
+        - parameter
+        - error
+      properties:
+        error:
+          type: string
+          example: stop
+        description:
+          type: string
+          example: stop not found
     error:
       required:
         - error
@@ -19,3 +30,8 @@ components:
         description:
           type: string
           example: object not found
+        parameter_error:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/parameter error'
