@@ -13,8 +13,23 @@ function setupAutocomplete(inp,origin) {
 }
 
 function setArticle(article) {
-    document.getElementById("wikiText").innerHTML = article.text;
+    var text = document.createElement("DIV");
+    text.innerHTML = article.text
+    var elements = text.getElementsByTagName("a");
+
+    for(i = 0; i < elements.length; i++){
+        elements[i].id = "aWikiElem" + i;
+    }
+
+    document.getElementById("wikiText").innerHTML = text.innerHTML;
     document.getElementById("wiki-title").innerHTML = article.title;
+
+    for(i = 0; i < elements.length; i++){
+        var element = document.getElementById("aWikiElem" + i);
+        if(!element.href.includes("#")){
+            element.href = element.href.replace("http://localhost:8080", "https://sv.wikipedia.org");
+        }
+    }
     $(".mw-editsection").css("visibility", "hidden");
 }
 
@@ -35,19 +50,12 @@ window.addEventListener("load", function () {
     })
         .done(function (data) {
             arr = data;
-            console.log(arr);
-
             setupAutocomplete(document.getElementById("origin-stop"),true);
             setupAutocomplete(document.getElementById("destination-stop"),false);
         });
 });
 
 function buttonSearchRoutePressed(){
-    console.log("buttonpressedOrigin : " + origin.name);
-    console.log("buttonpressedOrigin : " + origin.id);
-
-    console.log("buttonpressedDestination : " + destination.name);
-    console.log("buttonpressedDestination : " + destination.id);
 
     var button = document.getElementById("button-search-route");
     button.disabled = true;

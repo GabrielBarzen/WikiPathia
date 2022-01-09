@@ -89,7 +89,6 @@ public class ApiController {
         RedirectView view = new RedirectView();
         String pageEncode = URLEncoder.encode(page, StandardCharsets.UTF_8);
         view.setUrl("https://sv.wikipedia.org/wiki/" + pageEncode);
-
         return view;
     }
 
