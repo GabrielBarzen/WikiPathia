@@ -48,7 +48,10 @@ function buttonSearchRoutePressed(){
 
     console.log("buttonpressedDestination : " + destination.name);
     console.log("buttonpressedDestination : " + destination.id);
-    
+
+    var button = document.getElementById("button-search-route");
+    button.disabled = true;
+    button.innerHTML = "<span className='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span><span className='sr-only'>Laddar...</span>"
 
     let call = $.ajax({
         method: "GET",
@@ -129,6 +132,11 @@ function loadStop(route) {
         wikiArticles.appendChild(wikiLinkElement);
         showHide = document.getElementById("visibility");
         $(showHide).css("visibility", "visible");
+
+        var button = document.getElementById("button-search-route");
+        button.disabled = false;
+        button.innerHTML = "Sök rutt"
+
     }
 }
 
