@@ -2,21 +2,26 @@ package com.wikipathia.application.controller;
 
 import com.google.gson.*;
 import com.wikipathia.application.model.trafiklab.route.Route;
-import io.netty.util.CharsetUtil;
-import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
-import org.springframework.http.codec.xml.Jaxb2XmlEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+/**
+ * Main service-class for all communication with the TrafikLab API (ResRobot v2).
+ */
+@Service
 public class TrafikLabService {
 
     private final WebClient client;
     private final String apiKey;
 
+    /**
+     * Constructor for this class. Also reads API-key used for TrafikLab API.
+     * @param webClientBuilder used to create the WebClient and connection for Spring Boot.
+     */
     public TrafikLabService(WebClient.Builder webClientBuilder) {
 
         apiKey = readKey();
@@ -25,6 +30,10 @@ public class TrafikLabService {
 
     }
 
+    /**
+     * Method used to read API-key for TrafikLab API from key.dat file.
+     * @return String with API-key.
+     */
     private String readKey() {
         String key = null;
         try (BufferedReader reader = new BufferedReader(new FileReader("keys/key.dat"))){
@@ -35,9 +44,14 @@ public class TrafikLabService {
         return key;
     }
 
+    /**
+     * Method used to fetch full travel route from Trafiklab API.
+     * @param stopIdOrigin TrafikLab id for the starting point of the route, initially fetched from stops.csv
+     * @param stopIdDestination TrafikLab id for the final destination of the route, initially fetched from stops.csv
+     * @return newly created Route object from json data
+     */
     public Route getRouteFromID(int stopIdOrigin, int stopIdDestination) {
         Route routes;
-
 
         String routeJson = this.client.get().uri("/trip?format=json&originId={stopIdOrigin}&destId={stopIdDestination}&numF=1&numB=0&key={apiKey}", stopIdOrigin, stopIdDestination, apiKey)
                 .retrieve().bodyToMono(String.class).block();
@@ -51,6 +65,11 @@ public class TrafikLabService {
        return routes;
     }
 
+    /**
+     * Logging method for the json data fetched from TrafikLab api. Mostly used for debugging the last search made.
+     * Logging file is saved to route.json.
+     * @param route Route to be logged
+     */
     private void logJson(Route route) {
         String json = new Gson().toJson(route);
 
@@ -61,16 +80,4 @@ public class TrafikLabService {
             e.printStackTrace();
         }
     }
-
-    /*public Route getRouteFromCoordinates(double latOrigin, double lonOrigin, double latDestination, double lonDestination) {
-        Route route = new Route();
-
-        String originJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latOrigin}&originCoordLong={lonOrigin}&key={apiKey}" , latOrigin,lonOrigin,apiKey)
-                .retrieve().bodyToMono(String.class).block();
-
-        String destinationJSON = this.client.get().uri("/location.nearbystops?format=json&originCoordLat={latDestination}&originCoordLong={lonDestination}&key={apiKey}" , latDestination,lonDestination,apiKey)
-                .retrieve().bodyToMono(String.class).block();
-
-        return route;
-    }*/ //TODO ifall man pallar
 }
