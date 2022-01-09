@@ -21,11 +21,12 @@ function setArticle(article) {
 
 window.addEventListener("load", function () {
     setArticle(article.parse);
-
-    a = document.getElementById("till-box");
+    var showHide = document.getElementById("visibility");
+    $(showHide).css("visibility", "hidden");
+    var a = document.getElementById("till-box");
     $(a).css("z-index", 0);
 
-    b = document.getElementById("wiki-articles");
+    var b = document.getElementById("wiki-articles");
     $(b).css("z-index", 0);
 
     let call = $.ajax({
@@ -93,6 +94,8 @@ function loadStop(route) {
     var wikiArticles = document.getElementById("wiki-articles");
     wikiArticles.innerHTML = "";
 
+    
+
     for(i = 0; i<pages.length; i++){
         //<a class=\"list-group-item list-group-item-action\" href=\"#\">undefined</a>
         const wikiLinkElement = document.createElement("a");
@@ -123,7 +126,8 @@ function loadStop(route) {
         });
 
         wikiArticles.appendChild(wikiLinkElement);
-
+        showHide = document.getElementById("visibility");
+    $(showHide).css("visibility", "visible");
     }
 }
 

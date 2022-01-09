@@ -46,11 +46,31 @@
                                 API
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item"
+                                <li class="d-flex">
+                                    <a class="dropdown-item"
                                         href="https://app.swaggerhub.com/apis/TobiasSvenssonDev/WikiPathia/1"
-                                        target="_blank">Dokumentation</a></li>
-                                <li><a class="dropdown-item" href="https://github.com/GabrielModin/WikiPathia"
-                                        target="_blank">Git</a></li>
+                                        target="_blank">
+                                        <span class="col-8 mr-auto p-2">
+                                            Dokumentation
+                                        </span>
+                                        <span class="col-2 ml-auto p2">
+                                            <img src="images/newtab.png" class="ml-2" alt="Open link in new tab"
+                                                width="10px" height="10px" object-fit="contain">
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="d-flex">
+                                    <a class="dropdown-item" href="https://github.com/GabrielModin/WikiPathia"
+                                        target="_blank">
+                                        <span class="col-8 mr-auto p-2">
+                                            Git
+                                        </span>
+                                        <span class="col-2 ml-auto p2">
+                                            <img src="images/newtab.png" class="ml-2" alt="Open link in new tab"
+                                                width="10px" height="10px" object-fit="contain">
+                                        </span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -84,17 +104,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="container col-12 shadow p-3 mb-5 bg-body rounded">
-                    <div class="row ">
-                        <div class="col-1 text-left">
-                            <input type="button" value="Bak" onclick="loadPreviousStop()">
+                <div class="container col-12 shadow p-3 mb-5 bg-body rounded" id="visibility">
+                    <div class="row justify-content-center">
+
+                        
+
+                        <div class="col-12">
+                            <div class="row row-cols-3">
+                                <div class="col-1">
+                                    <img src="images/prev.png" alt="previous station" width="20px" height="20px"
+                                        object-fit="contain" style="cursor: pointer;" onclick="loadPreviousStop()">
+                                </div>
+                                <div class="col-10 text-center">
+                                    <span id="current-station">
+                                        Nuvarande station
+                                    </span>
+                                </div>
+                                <div class="col-1">
+                                    <img src="images/next.png" alt="previous station" width="20px" height="20px"
+                                        object-fit="contain" style="cursor: pointer;" onclick="loadNextStop()">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-9 text-center">
-                            <div id="current-station">Nuvarande station</div>
-                        </div>
-                        <div class="col-2 text-right">
-                            <input type="button" value="Nästa" onclick="loadNextStop()">
-                        </div>
+
+                        
+
                     </div>
                     <div class="row pt-1">
                         <div class="col-12 justify-content-center">
@@ -110,10 +144,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-7 shadow p-3 mt-5 mb-5 bg-body rounded" style="max-height: 1080px;">
-                <div class="mh-100 overflow-auto">
+            <div class="col-7 shadow p-3 mt-5 mb-5 bg-body rounded overflow-auto" style="max-height: 1080px;">
+                <div class="mh-100 ">
                     <h1 id="wiki-title"></h1>
-                    <div  id="wikiText"></div>
+                    <div id="wikiText"></div>
                 </div>
             </div>
         </div>

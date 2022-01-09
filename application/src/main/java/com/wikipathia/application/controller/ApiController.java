@@ -26,6 +26,7 @@ public class ApiController {
             String current;
             reader.readLine();
             while ((current = reader.readLine()) != null) {
+                current = new String(current.getBytes(),StandardCharsets.UTF_8);
                 Stop stop = new Stop();
                 stop.setId(String.valueOf(Integer.parseInt(current.split(",")[0])));
                 stop.setName( current.split(",")[1]);
