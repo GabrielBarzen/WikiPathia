@@ -1,0 +1,112 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: wikiPath
+  description: >-
+    API för att hitta Wikipedia artiklar baserade på platsdata av tågstationer, 
+    busshållsplatser och flygplatser längs en rutt i Sverige
+
+
+paths:
+  /routeArticles:
+    get:
+      summary: Returnerar en rutt med tillhörande wikipedia artiklar.
+      parameters:
+        - name: originID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens start
+          schema:
+            type: integer
+            format: int64
+        - name: destinationID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens slut
+          schema:
+            type: integer
+            format: int64
+        - name: showTimes
+          in: query
+          required: false
+          description: Flagga ifall tider ska inkuderas för varje stop
+          schema:
+            type: boolean
+        - name: numArticles
+          in: query
+          required: false
+          description: Antalet artiklar per stop
+          schema:
+            type: integer
+            format: int64
+        - name: geoRadius
+          in: query
+          required: false
+          description: Antalet meter från stationen artiklar ska hämtas
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':    # status code
+          description: Ett JSON objekt med en lista av stationer med tillhörande listor av wikipediaartiklar relaterade till stationen.
+          content:
+            application/json:
+              schema:
+                $ref: './wikiPath.yaml/#/components/schemas/wikiPath'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: './error.yaml/#/components/schemas/error'
+
+  /stops:
+    get:
+      summary: Rteurnerar en lista av stationer som kan användas som parameter till /routeArticles.
+      responses:
+        '200':
+          description: Ett JSON objekt med en lista av stationer med tillhörande listor av wikipediaartiklar relaterade till stationen.
+          content:
+            application/json:
+              schema:
+                $ref: './stop.yaml/#/components/schemas/stop'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: './error.yaml/#/components/schemas/error'
+
+  /wiki:
+    get:
+      summary: Hämtar wikipedia artikeln med hjälp av pageID objekt för förhandsvisning
+      responses:
+        '200':
+          description:
+            returnerar wikipedia artikel objekt
+          content:
+            application/json:
+              schema:
+                $ref: './wikipedia.yaml/#/components/schemas/wikipedia'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: './error.yaml/#/components/schemas/error'
+
+  /wiki/{page}:
+    get:
+      summary: Dirigerar om till wikipedia med hjälp av artikelnamn
+      parameters:
+        - name: page
+          in: path
+          required: true
+      responses:
+        '200':
+          description:
+            Dirigerar om till wikipedias arikel
+
