@@ -1,13 +1,10 @@
 package com.wikipathia.application.controller;
 
-import com.wikipathia.application.Application;
-import com.wikipathia.application.model.trafiklab.route.Route;
-import com.wikipathia.application.model.wiki.pages.WikipediaPages;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
+/**
+ * Main Controller class of this application. Creates the two main service-classes WikipediaService and TrafikLabService.
+ */
 public class MainController {
 
     private static WikipediaService wikiService;

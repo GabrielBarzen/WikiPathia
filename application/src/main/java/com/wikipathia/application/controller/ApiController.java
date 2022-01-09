@@ -3,13 +3,14 @@ package com.wikipathia.application.controller;
 import com.google.gson.Gson;
 import com.wikipathia.application.model.WikiPath;
 import com.wikipathia.application.model.WikiPathStop;
-import com.wikipathia.application.model.trafiklab.route.*;
+import com.wikipathia.application.model.trafiklab.route.Leg;
+import com.wikipathia.application.model.trafiklab.route.Route;
+import com.wikipathia.application.model.trafiklab.route.Stop;
 import com.wikipathia.application.model.wiki.pages.WikipediaPages;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URLEncoder;
@@ -18,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Main controller class for
+ */
 @RestController
 @RequestMapping("api")
 public class ApiController {
