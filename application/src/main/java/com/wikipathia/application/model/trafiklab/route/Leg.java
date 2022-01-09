@@ -14,9 +14,6 @@ public class Leg {
     @SerializedName("Destination")
     @Expose
     private Destination destination;
-    @SerializedName("Product")
-    @Expose
-    private Product product;
     @SerializedName("Stops")
     @Expose
     private Stops stops;
@@ -41,9 +38,6 @@ public class Leg {
     @SerializedName("direction")
     @Expose
     private String direction;
-    @SerializedName("Notes")
-    @Expose
-    private Notes notes;
     @SerializedName("duration")
     @Expose
     private String duration;
@@ -65,14 +59,6 @@ public class Leg {
 
     public void setDestination(Destination destination) {
         this.destination = destination;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public Stops getStops() {
@@ -137,14 +123,6 @@ public class Leg {
 
     public void setDirection(String direction) {
         this.direction = direction;
-    }
-
-    public Notes getNotes() {
-        return notes;
-    }
-
-    public void setNotes(Notes notes) {
-        this.notes = notes;
     }
 
     public String getDuration() {

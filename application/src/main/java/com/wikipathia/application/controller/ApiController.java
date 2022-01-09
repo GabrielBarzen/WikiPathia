@@ -202,6 +202,9 @@ public class ApiController {
                         geoRadius = 10000;
                     }
                     break;
+                case "originID" :
+                case "destinationID" :
+                    break;
                 default:
                     badParam.add(entry.getValue());
                     break;

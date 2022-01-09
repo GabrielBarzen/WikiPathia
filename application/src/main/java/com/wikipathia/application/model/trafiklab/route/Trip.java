@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 @Generated("jsonschema2pojo")
 public class Trip {
 
-
     @SerializedName("LegList")
     @Expose
     private LegList legList;
@@ -18,9 +17,6 @@ public class Trip {
     @SerializedName("tripId")
     @Expose
     private String tripId;
-    @SerializedName("ctxRecon")
-    @Expose
-    private String ctxRecon;
     @SerializedName("duration")
     @Expose
     private String duration;
@@ -47,14 +43,6 @@ public class Trip {
 
     public void setTripId(String tripId) {
         this.tripId = tripId;
-    }
-
-    public String getCtxRecon() {
-        return ctxRecon;
-    }
-
-    public void setCtxRecon(String ctxRecon) {
-        this.ctxRecon = ctxRecon;
     }
 
     public String getDuration() {
