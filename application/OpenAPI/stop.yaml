@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: stop
+  description: >-
+    Alla stop som kan användas i /api/routeArticles
+paths: {}
+
+components:
+  schemas:
+    stop:
+      required:
+        - name
+        - id
+      properties:
+        name:
+          type: string
+          example: Stockholm Centralstation
+        id:
+          type: integer
+          example: 740000001
+

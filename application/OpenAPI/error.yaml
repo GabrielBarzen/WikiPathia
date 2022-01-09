@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: stop
+  description: >-
+    Alla stop som kan användas i /api/routeArticles
+paths: {}
+
+components:
+  schemas:
+    error:
+      required:
+        - error
+        - description
+      properties:
+        error:
+          type: string
+          example: not found
+        description:
+          type: string
+          example: object not found
