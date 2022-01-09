@@ -48,6 +48,7 @@ function buttonSearchRoutePressed(){
 
     console.log("buttonpressedDestination : " + destination.name);
     console.log("buttonpressedDestination : " + destination.id);
+    
 
     let call = $.ajax({
         method: "GET",
@@ -127,7 +128,7 @@ function loadStop(route) {
 
         wikiArticles.appendChild(wikiLinkElement);
         showHide = document.getElementById("visibility");
-    $(showHide).css("visibility", "visible");
+        $(showHide).css("visibility", "visible");
     }
 }
 
