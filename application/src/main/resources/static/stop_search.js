@@ -91,7 +91,7 @@ function loadStop(route) {
     var stop = route.wikiPath[currentStop];
 
     var currentStation = document.getElementById("current-station");
-    currentStation.innerHTML = stop.stopName;
+    currentStation.innerHTML = stop.stopName + " (" + (currentStop+1) + "/" + route.wikiPath.length + ")";
 
     var pages = stop.pages;
 
