@@ -7,6 +7,7 @@ import com.wikipathia.application.model.trafiklab.route.Leg;
 import com.wikipathia.application.model.trafiklab.route.Route;
 import com.wikipathia.application.model.trafiklab.route.Stop;
 import com.wikipathia.application.model.wiki.pages.WikipediaPages;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -22,7 +23,13 @@ import java.util.Map;
  * Main controller class for
  */
 @RestController
+@RequestMapping("api")
 public class ApiController {
+
+    public ApiController(){
+
+    }
+
     @RequestMapping(value = "/stops", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getStops() {
         ArrayList<Stop> stops = new ArrayList<>();
@@ -64,7 +71,7 @@ public class ApiController {
     }
 
 
-    @RequestMapping(value = "/api/routeArticles", method = RequestMethod.GET)
+    @RequestMapping(value = "/routeArticles", method = RequestMethod.GET)
     public String getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
         TrafikLabService trafikLabService = MainController.getTrafikLabService();
         WikipediaService wikipediaService = MainController.getWikiService();

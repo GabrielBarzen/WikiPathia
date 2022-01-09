@@ -11,9 +11,6 @@ public class Geosearch {
     @SerializedName("pageid")
     @Expose
     private Integer pageid;
-    @SerializedName("ns")
-    @Expose
-    private Integer ns;
     @SerializedName("title")
     @Expose
     private String title;
@@ -26,9 +23,7 @@ public class Geosearch {
     @SerializedName("dist")
     @Expose
     private Double dist;
-    @SerializedName("primary")
-    @Expose
-    private String primary;
+
 
     public Integer getPageid() {
         return pageid;
@@ -36,14 +31,6 @@ public class Geosearch {
 
     public void setPageid(Integer pageid) {
         this.pageid = pageid;
-    }
-
-    public Integer getNs() {
-        return ns;
-    }
-
-    public void setNs(Integer ns) {
-        this.ns = ns;
     }
 
     public String getTitle() {
@@ -76,14 +63,6 @@ public class Geosearch {
 
     public void setDist(Double dist) {
         this.dist = dist;
-    }
-
-    public String getPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(String primary) {
-        this.primary = primary;
     }
 
 }

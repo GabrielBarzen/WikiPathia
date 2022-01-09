@@ -30,7 +30,7 @@ window.addEventListener("load", function () {
     $(b).css("z-index", 0);
 
     let call = $.ajax({
-        url: '/stops',
+        url: '/api/stops',
         headers: {"Accept": "application/json"}
     })
         .done(function (data) {
@@ -94,11 +94,8 @@ function loadStop(route) {
     currentStation.innerHTML = stop.stopName + " (" + (currentStop+1) + "/" + route.wikiPath.length + ")";
 
     var pages = stop.pages;
-
     var wikiArticles = document.getElementById("wiki-articles");
     wikiArticles.innerHTML = "";
-
-    
 
     for(i = 0; i<pages.length; i++){
         //<a class=\"list-group-item list-group-item-action\" href=\"#\">undefined</a>
@@ -114,14 +111,14 @@ function loadStop(route) {
 
 
         $(wikiLinkElement).on('click', function(e) {
-            // prevent the default action, in this case the following of a link
+
             e.preventDefault();
-            // capture the href attribute of the a element
+
             var url = $(this).attr('href');
-            // perform a get request using ajax to the captured href value
+
             let call = $.ajax({
                 method: "GET",
-                url: "/" + url,
+                url: "/api/" + url,
                 headers: {"Accept": "application/json"}
             }).done(function (data){
                 article = data;
