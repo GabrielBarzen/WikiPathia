@@ -9,7 +9,7 @@
 - Java 17
 - Maven 3.8.4
 
-### Instruktioner linux
+### Instruktioner
 #### Steg 1: klona projektet
 Kör nedståande kommandot i terminalemulator :
 ```zsh
