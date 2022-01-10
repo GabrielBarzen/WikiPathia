@@ -30,6 +30,8 @@ import java.util.*;
 public class ApiController {
 
     private ArrayList<String> badParam = new ArrayList<>();
+    private TreeMap<Integer,WikiPath> paths = new TreeMap<>();
+    private int numPaths = 0;
 
     /**
      * Handles incoming GET requests to retrieve String representation of stops.csv, used to find available stops on a route.
@@ -91,12 +93,11 @@ public class ApiController {
         return view;
     }
 
-
-
-
-    private TreeMap<Integer,WikiPath> paths = new TreeMap<>();
-    int numPaths = 0;
-
+    /**
+     * Handles incoming Put requests update WikiPath Object in array by remaking it.
+     * @param id TrafikLab id for the starting point of the route, initially fetched from stops.csv
+     * @return ResponseEntity containing Json in body and Response Code.
+     */
     @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.GET)
     public ResponseEntity<String> getWikiPath (@PathVariable(required = true, name = "id") int id){
         ResponseEntity<String> responseEntity = null;
@@ -113,6 +114,9 @@ public class ApiController {
         return responseEntity;
     }
 
+    /**
+     * Returns a list of available WikiPaths with their corresponding ID's
+     */
     @RequestMapping(value = "/wikiPaths", method = RequestMethod.GET)
     public ResponseEntity<String> getWikiPath (){
         Gson gson = new Gson();
@@ -127,12 +131,22 @@ public class ApiController {
         return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(retPaths));
     }
 
+    /**
+     * Handles incoming Put requests update WikiPath Object in array by remaking it.
+     * @param id TrafikLab id for the starting point of the route, initially fetched from stops.csv
+     * @param parameters collection of parameters to specify which data to include in request
+     */
     @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.PUT)
     public void updateWikiPath (@PathVariable(required = true, name = "id")int id, @RequestParam Map<String,String> parameters){
         WikiPath path = createRoute(paths.get(id).getTripOriginID(),paths.get(id).getTripDestinationID(),parameters);
         paths.put(id,path);
     }
 
+    /**
+     * Handles incoming Delete requests to remove WikiPath from map.
+     * @param id TrafikLab id for the starting point of the route, initially fetched from stops.csv
+     * @return ResponseEntity containing Json in body and Response Code.
+     */
     @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteWikiPath (@PathVariable(required = true, name = "id") int id){
         ResponseEntity<String> responseEntity = null;
@@ -152,11 +166,10 @@ public class ApiController {
 
 
     /**
-     * Handles incoming GET requests to retrieve json data with list of Wikipedia articles from specified Route.
+     * Handles incoming POST requests to retrieve json data with list of Wikipedia articles from specified Route and saves it to array.
      * @param originId TrafikLab id for the starting point of the route, initially fetched from stops.csv
      * @param destinationId TrafikLab id for the final destination of the route, initially fetched from stops.csv
      * @param parameters collection of parameters to specify which data to include in request
-     * @return String representation of json data
      */
     @RequestMapping(value = "/wikiPaths", method = RequestMethod.POST)
     public void createWikiPath(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
@@ -164,6 +177,13 @@ public class ApiController {
         numPaths++;
     }
 
+    /**
+     * Create WikiPath object to add to map or to update object
+     * @param originId TrafikLab id for the starting point of the route, initially fetched from stops.csv
+     * @param destinationId TrafikLab id for the final destination of the route, initially fetched from stops.csv
+     * @param parameters collection of parameters to specify which data to include in request
+     * @return WikiPath representation of json data
+     */
     private WikiPath createRoute(int originId, int destinationId, Map<String,String> parameters){
         TrafikLabService trafikLabService = MainController.getTrafikLabService();
         WikipediaService wikipediaService = MainController.getWikiService();
