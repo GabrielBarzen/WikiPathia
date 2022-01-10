@@ -8,7 +8,7 @@ paths: {}
 
 components:
   schemas:
-    parameter error:
+    parameterError:
       required:
         - parameter
         - error
