@@ -57,19 +57,47 @@ window.addEventListener("load", function () {
 
 function buttonSearchRoutePressed(){
     if (!(origin === undefined) && !(destination === undefined)) {
-    let button = document.getElementById("button-search-route");
-    button.disabled = true;
-    button.innerHTML = "<span className='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span><span className='sr-only'>Laddar...</span>"
+        let button = document.getElementById("button-search-route");
+        button.disabled = true;
+        button.innerHTML = "<span className='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span><span className='sr-only'>Laddar...</span>"
 
-    let call = $.ajax({
-        method: "GET",
-        url: "/api/v2/wikiPath?originID="+ origin.id + "&destinationID=" + destination.id + "&showTimes=true&numArticles=15" ,
-        headers: {"Accept": "application/json"}
-    })
-        .done(function (data) {
-            route = data;
-            loadStop(data);
-        });
+        let createCall = $.ajax({
+            method: "POST",
+            url: "/api/v2/wikiPaths?originID="+ origin.id + "&destinationID=" + destination.id + "&showTimes=true&numArticles=15" ,
+            headers: {"Accept": "application/json"},
+        })
+            .done(function () {
+                var pages;
+                let getListCall = $.ajax({
+                    method: "GET",
+                    url: "/api/v2/wikiPaths" ,
+                    headers: {"Accept": "application/json"},
+                    async: false
+                })
+                    .done(function (data) {
+                        console.log("data : " + data);
+                        console.log(data);
+                        pages = data;
+                        let getArticleCall = $.ajax({
+                            method: "GET",
+                            url: "/api/v2/wikiPaths/" + pages[pages.length-1].ID ,
+                            headers: {"Accept": "application/json"}
+                        })
+                            .done(function (data) {
+                                route = data;
+                                console.log("route:")
+                                console.log(route)
+                                loadStop(route);
+                            });
+                    });
+                console.log("pages : " + pages);
+                console.log(pages);
+            });
+
+
+
+
+
     } else {
         alert("Vänligen välj ny rutt");
         document.getElementById("origin-stop").value = "";

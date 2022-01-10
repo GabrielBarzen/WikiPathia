@@ -13,15 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Main controller class for all HTTP request to the WikiPathia API.
@@ -92,6 +91,66 @@ public class ApiController {
         return view;
     }
 
+
+
+
+    private TreeMap<Integer,WikiPath> paths = new TreeMap<>();
+    int numPaths = 0;
+
+    @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.GET)
+    public ResponseEntity<String> getWikiPath (@PathVariable(required = true, name = "id") int id){
+        ResponseEntity<String> responseEntity = null;
+        if(paths.get(id) != null) {
+            Gson gson = new Gson();
+            responseEntity = ResponseEntity.status(HttpStatus.OK).body(gson.toJson(paths.get(id)));
+        } else {
+            Gson gson = new Gson();
+            Error error = new Error();
+            error.setError("No such id");
+            error.setDescription("No route with an id of " + id + " exists");
+            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(gson.toJson(error));
+        }
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/wikiPaths", method = RequestMethod.GET)
+    public ResponseEntity<String> getWikiPath (){
+        Gson gson = new Gson();
+        ArrayList<WikiPath> retPaths = new ArrayList<>();
+        for (WikiPath value : paths.values()) {
+            WikiPath path = new WikiPath();
+            path.setID(value.getID());
+            path.setTripOriginID(value.getTripOriginID());
+            path.setTripDestinationID(value.getTripDestinationID());
+            retPaths.add(path);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(retPaths));
+    }
+
+    @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.PUT)
+    public void updateWikiPath (@PathVariable(required = true, name = "id")int id, @RequestParam Map<String,String> parameters){
+        WikiPath path = createRoute(paths.get(id).getTripOriginID(),paths.get(id).getTripDestinationID(),parameters);
+        paths.put(id,path);
+    }
+
+    @RequestMapping(value = "/wikiPaths/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteWikiPath (@PathVariable(required = true, name = "id") int id){
+        ResponseEntity<String> responseEntity = null;
+        if(paths.get(id) != null) {
+            paths.remove(id);
+            responseEntity = ResponseEntity.status(HttpStatus.OK).body("{success : true}");
+        } else {
+            Gson gson = new Gson();
+            Error error = new Error();
+            error.setError("No such id");
+            error.setDescription("No route with an id of " + id + " exists");
+            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(gson.toJson(error));
+        }
+        return responseEntity;
+    }
+
+
+
     /**
      * Handles incoming GET requests to retrieve json data with list of Wikipedia articles from specified Route.
      * @param originId TrafikLab id for the starting point of the route, initially fetched from stops.csv
@@ -99,8 +158,13 @@ public class ApiController {
      * @param parameters collection of parameters to specify which data to include in request
      * @return String representation of json data
      */
-    @RequestMapping(value = "/wikiPath", method = RequestMethod.GET)
-    public ResponseEntity<String> getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
+    @RequestMapping(value = "/wikiPaths", method = RequestMethod.POST)
+    public void createWikiPath(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
+        paths.put(numPaths,createRoute( originId,  destinationId, parameters));
+        numPaths++;
+    }
+
+    private WikiPath createRoute(int originId, int destinationId, Map<String,String> parameters){
         TrafikLabService trafikLabService = MainController.getTrafikLabService();
         WikipediaService wikipediaService = MainController.getWikiService();
 
@@ -110,11 +174,16 @@ public class ApiController {
             Gson gson = new Gson();
             error.setError("bad request");
             error.setDescription("Bad error such as bad ID for trafiklab, get list of id with /api/v2/stops");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(gson.toJson(error));
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Station not found please try new stations");
         }
 
         List<Leg> legs = route.getTrip().get(0).getLegList().getLeg();
         WikiPath path = new WikiPath();
+        path.setID(numPaths);
+
+        path.setTripOriginID(originId);
+        path.setTripDestinationID(destinationId);
 
         for (int legCount = 0; legCount < legs.size(); legCount++) {
             if (legs.get(legCount).getStops() != null) {
@@ -158,7 +227,8 @@ public class ApiController {
             error.setParameter_error(badParameters);
             json += gson.toJson(error);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(json);
+
+        return gson.fromJson(json,WikiPath.class);
     }
 
     /**
