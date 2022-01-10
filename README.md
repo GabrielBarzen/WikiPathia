@@ -1,6 +1,8 @@
 # WikiPathia
 ## Api
-### Api tjänster:
+### Dokumentation
+- https://app.swaggerhub.com/apis-docs/TobiasSvenssonDev/WikiPathia/2.0.0
+### Tjänster:
 - https://developer.trafiklab.se/projekt/wikipathia
 - https://www.mediawiki.org/wiki/API:Main_page
 
