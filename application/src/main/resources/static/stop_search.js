@@ -85,9 +85,10 @@ function buttonSearchRoutePressed(){
                         })
                             .done(function (data) {
                                 route = data;
-                                console.log("route:")
-                                console.log(route)
                                 loadStop(route);
+                                zoom = 12;
+                                buildMapPath();
+                                initMap();
                             });
                     });
                 console.log("pages : " + pages);
