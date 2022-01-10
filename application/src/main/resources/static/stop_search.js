@@ -39,6 +39,8 @@ window.addEventListener("load", function () {
     setArticle(article.parse);
     let showHide = document.getElementById("visibility");
     $(showHide).css("visibility", "hidden");
+    let mapShowHide = this.document.getElementById("map");
+    $(mapShowHide).css("visibility", "hidden");
     let a = document.getElementById("till-box");
     $(a).css("z-index", 0);
 
@@ -164,8 +166,11 @@ function loadStop(route) {
         });
 
         wikiArticles.appendChild(wikiLinkElement);
+
         showHide = document.getElementById("visibility");
         $(showHide).css("visibility", "visible");
+        mapShowHide = document.getElementById("map");
+        $(mapShowHide).css("visibility", "visible");
 
         let button = document.getElementById("button-search-route");
         button.disabled = false;
