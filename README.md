@@ -35,3 +35,4 @@ mvn spring-boot:run
 ##### Anteckningar
 - Servern körs på port 8080
 - För att komma till applikationens huvudsida skriv http://localhost:8080/ i webbläsarens adressfält
+- https://mkyong.com/maven/how-to-install-maven-in-windows/ maven instruktioner för windows
