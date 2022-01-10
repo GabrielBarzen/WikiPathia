@@ -35,7 +35,6 @@ function setArticle(article) {
 
 
 window.addEventListener("load", function () {
-    initMap();
     setArticle(article.parse);
     let showHide = document.getElementById("visibility");
     $(showHide).css("visibility", "hidden");
@@ -70,17 +69,27 @@ function buttonSearchRoutePressed(){
         .done(function (data) {
             route = data;
             loadStop(data);
+            zoom = 15;
+            buildMapPath();
+            initMap();
         });
     } else {
         alert("Vänligen välj ny rutt");
         document.getElementById("origin-stop").value = "";
         document.getElementById("destination-stop").value = "";
-
     }
 }
 
 let currentStop = 0;
 let route;
+
+function buildMapPath() {
+    for (let i = 0; i < route.wikiPath.length; i++) {
+        let coordinate;
+        coordinate = {lat: route.wikiPath[i].queryLat, lng: route.wikiPath[i].queryLon};
+        mapPath[i] = coordinate;
+    }
+}
 
 function loadNextStop(){
     if (currentStop < route.wikiPath.length-1){
@@ -101,20 +110,21 @@ function loadPreviousStop(){
 
 }
 
+let mapPath = [];
+let mapLat = 59.330460589069624;
+let mapLng = 18.059311900276285;
+let zoom = 6;
+let map;
+
 function initMap() {
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 3,
-        center: { lat: 0, lng: -180 },
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: zoom,
+        center: {lat: mapLat, lng: mapLng},
         mapTypeId: "terrain",
     });
-    const flightPlanCoordinates = [
-        { lat: 37.772, lng: -122.214 },
-        { lat: 21.291, lng: -157.821 },
-        { lat: -18.142, lng: 178.431 },
-        { lat: -27.467, lng: 153.027 },
-    ];
+
     const flightPath = new google.maps.Polyline({
-        path: flightPlanCoordinates,
+        path: mapPath,
         geodesic: true,
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
@@ -122,11 +132,30 @@ function initMap() {
     });
 
     flightPath.setMap(map);
+    updateMap();
+}
+
+let marker;
+function updateMap() {
+    let coordinate;
+    coordinate = {lat: mapLat, lng: mapLng};
+    map.setCenter(coordinate);
+
+    if (marker != undefined) {
+        marker.setMap(null);
+    }
+    marker = new google.maps.Marker({
+        position: coordinate,
+        map,
+    });
 }
 
 function loadStop(route) {
 
     let stop = route.wikiPath[currentStop];
+    mapLat = stop.queryLat;
+    mapLng = stop.queryLon;
+    updateMap();
 
     let currentStation = document.getElementById("current-station");
     currentStation.innerHTML = stop.stopName + " (" + (currentStop+1) + "/" + route.wikiPath.length + ")";

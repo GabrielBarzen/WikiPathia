@@ -23,6 +23,13 @@
 
 <body class="bg-secondary">
     <!--navbar-->
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly&channel=2"
+            async
+    ></script>
     <div class="container bg-light">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark border border-secondary ">
             <div class="container-fluid ">
