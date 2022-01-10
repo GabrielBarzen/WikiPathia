@@ -14,8 +14,13 @@
 ### Instruktioner
 #### Steg 1: klona projektet
 Kör nedståande kommandot i terminalemulator :
+- Linux :
 ```zsh
 mkdir wikipathia & git clone https://github.com/GabrielModin/WikiPathia/ ./wikipathia
+```
+- Windows 11
+```zsh
+mkdir wikipathia | git clone https://github.com/GabrielModin/WikiPathia/ ./wikipathia
 ```
 #### Steg 2: Navigera till katalogen application
 Kör nedståande kommandot i terminalemulator :
