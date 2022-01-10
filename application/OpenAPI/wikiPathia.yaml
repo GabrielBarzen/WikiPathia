@@ -8,8 +8,6 @@ servers:
   # Added by API Auto Mocking Plugin
   - url: https://virtserver.swaggerhub.com/TobiasSvenssonDev/WikiPathia/2.0.0
     description: SwaggerHub API Auto Mocking
-  - url: 127.0.0.1:8080/api/v2/
-    description: Localhost
 paths:
   /wikiPaths:
     get:
@@ -29,7 +27,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /wikiPaths/{id}:
     post:
       summary: Lägg till wikiPath
       description: Lägger till en wikiPath i systemet.
@@ -75,12 +72,13 @@ paths:
           description: Felaktigt stationsID försök igen
         '500':
           description: Error i servern
+  /wikiPaths/{id}:
     get:
       summary: Hämta wikipath
       description: Får ut en wikiPath
       parameters:
-        - name: ID
-          in: query
+        - name: id
+          in: path
           required: true
           description: Trafiklab-Stationsid för ruttens start
           schema:
@@ -106,8 +104,8 @@ paths:
       summary: Uppdatera wikiPath
       description: Ändrar parametrar till en wikiPath
       parameters:
-        - name: ID
-          in: query
+        - name: id
+          in: path
           required: true
           description: Trafiklab-Stationsid för ruttens start
           schema:
@@ -144,8 +142,8 @@ paths:
       summary: Ta bort en wikiPath
       description: Tar bort en existerande wikiPath ur tjänsten
       parameters:
-        - name: ID
-          in: query
+        - name: id
+          in: path
           required: true
           description: Trafiklab-Stationsid för ruttens start
           schema:
