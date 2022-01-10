@@ -71,7 +71,7 @@ function buttonSearchRoutePressed(){
         .done(function (data) {
             route = data;
             loadStop(data);
-            zoom = 15;
+            zoom = 12;
             buildMapPath();
             initMap();
         });
@@ -123,6 +123,7 @@ function initMap() {
         zoom: zoom,
         center: {lat: mapLat, lng: mapLng},
         mapTypeId: "terrain",
+        disableDefaultUI: true,
     });
 
     const flightPath = new google.maps.Polyline({
