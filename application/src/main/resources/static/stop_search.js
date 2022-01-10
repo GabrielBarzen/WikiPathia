@@ -45,7 +45,7 @@ window.addEventListener("load", function () {
     $(b).css("z-index", 0);
 
     let call = $.ajax({
-        url: '/api/stops',
+        url: '/api/v2/stops',
         headers: {"Accept": "application/json"}
     })
         .done(function (data) {
@@ -63,7 +63,7 @@ function buttonSearchRoutePressed(){
 
     let call = $.ajax({
         method: "GET",
-        url: "/api/routeArticles?originID="+ origin.id + "&destinationID=" + destination.id + "&showTimes=true&numArticles=15" ,
+        url: "/api/v2/wikiPath?originID="+ origin.id + "&destinationID=" + destination.id + "&showTimes=true&numArticles=15" ,
         headers: {"Accept": "application/json"}
     })
         .done(function (data) {
@@ -131,7 +131,7 @@ function loadStop(route) {
 
             let call = $.ajax({
                 method: "GET",
-                url: "/api/" + url,
+                url: "/api/v2/" + url,
                 headers: {"Accept": "application/json"}
             }).done(function (data){
                 article = data;

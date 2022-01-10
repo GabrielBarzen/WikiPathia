@@ -27,7 +27,7 @@ import java.util.Map;
  * Main controller class for all HTTP request to the WikiPathia API.
  */
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/v2")
 public class ApiController {
 
     private ArrayList<String> badParam = new ArrayList<>();
@@ -99,7 +99,7 @@ public class ApiController {
      * @param parameters collection of parameters to specify which data to include in request
      * @return String representation of json data
      */
-    @RequestMapping(value = "/routeArticles", method = RequestMethod.GET)
+    @RequestMapping(value = "/wikiPath", method = RequestMethod.GET)
     public ResponseEntity<String> getRouteArticles(@RequestParam(required = true, name = "originID")int originId, @RequestParam(required = true, name = "destinationID") int destinationId, @RequestParam Map<String,String> parameters ) {
         TrafikLabService trafikLabService = MainController.getTrafikLabService();
         WikipediaService wikipediaService = MainController.getWikiService();
@@ -109,7 +109,7 @@ public class ApiController {
             Error error = new Error();
             Gson gson = new Gson();
             error.setError("bad request");
-            error.setDescription("Bad error such as bad ID for trafiklab, get list of id with /api/stops");
+            error.setDescription("Bad error such as bad ID for trafiklab, get list of id with /api/v2/stops");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(gson.toJson(error));
         }
 
