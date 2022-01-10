@@ -1,0 +1,342 @@
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: WikiPathia
+  description: API for finding Wikipedia articles based on geolocation of trainstations,
+    busstops and airports in Sweden
+servers:
+  # Added by API Auto Mocking Plugin
+  - url: https://virtserver.swaggerhub.com/TobiasSvenssonDev/WikiPathia/2.0.0
+    description: SwaggerHub API Auto Mocking
+  - url: 127.0.0.1:8080/api/v2/
+    description: Localhost
+paths:
+  /wikiPaths:
+    get:
+      summary: Hämta en lista av existerande wikiPath
+      description: Returnerar en lista av alla existerande wikiPath i Systemet.
+      responses:
+        '200':    # status code
+          description: Ett JSON objekt med en lista av stationer med tillhörande listor av wikipediaartiklar relaterade till stationen.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wikiPathListAll'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /wikiPaths/{id}:
+    post:
+      summary: Lägg till wikiPath
+      description: Lägger till en wikiPath i systemet.
+      parameters:
+        - name: originID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens start
+          schema:
+            type: integer
+            format: int64
+        - name: destinationID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens slut
+          schema:
+            type: integer
+            format: int64
+        - name: showTimes
+          in: query
+          required: false
+          description: Flagga ifall tider ska inkuderas för varje stop
+          schema:
+            type: boolean
+        - name: numArticles
+          in: query
+          required: false
+          description: Antalet artiklar per stop
+          schema:
+            type: integer
+            format: int64
+        - name: geoRadius
+          in: query
+          required: false
+          description: Antalet meter från stationen artiklar ska hämtas
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200': # status code
+          description: Rutten tillagd i samling
+        '404': # status code
+          description: Felaktigt stationsID försök igen
+        '500':
+          description: Error i servern
+    get:
+      summary: Hämta wikipath
+      description: Får ut en wikiPath
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens start
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+        '200': # status code
+          description: Ett JSON objekt med en lista av stationer med tillhörande listor av wikipediaartiklar relaterade till stationen.
+          content:
+            application/json:
+              schema:
+
+                $ref: '#/components/schemas/wikiPath'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    put:
+      summary: Uppdatera wikiPath
+      description: Ändrar parametrar till en wikiPath
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens start
+          schema:
+            type: integer
+            format: int64
+        - name: showTimes
+          in: query
+          required: false
+          description: Flagga ifall tider ska inkuderas för varje stop
+          schema:
+            type: boolean
+        - name: numArticles
+          in: query
+          required: false
+          description: Antalet artiklar per stop
+          schema:
+            type: integer
+            format: int64
+        - name: geoRadius
+          in: query
+          required: false
+          description: Antalet meter från stationen artiklar ska hämtas
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200': # status code
+          description: Rutten tillagd i samling
+        '404': # status code
+          description: Felaktigt stationsID försök igen
+        '500':
+          description: Okänt error i servern
+    delete:
+      summary: Ta bort en wikiPath
+      description: Tar bort en existerande wikiPath ur tjänsten
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          description: Trafiklab-Stationsid för ruttens start
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+        '200': # status code
+          description: Rutt borttagen
+
+        '404':
+          description: "Kunde inte ta bort rutt : ingen rutt med det ID:t finns i systemet"
+
+  /stops:
+    get:
+      summary: stops
+      description: Returnerar en lista av stationer som kan användas som parameter till /routeArticles.
+      responses:
+        '200':
+          description: Ett JSON objekt med en lista av stationer med tillhörande listor av wikipediaartiklar relaterade till stationen.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stop'
+        '404':
+          description:
+            returnerar json objekt med errormeddelande
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /wiki:
+    get:
+      summary: wiki
+      description: Hämtar wikipedia artikeln med hjälp av pageID objekt för förhandsvisning
+      responses:
+        '200':
+          description:
+            returnerar wikipedia artikel objekt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wikipedia'
+  /wiki/{page}:
+    get:
+      summary: wikipage redirect
+      description: Dirigerar om till wikipedia med hjälp av artikelnamn
+      parameters:
+        - name: page
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description:
+            Dirigerar om till wikipedias arikel
+components:
+  schemas:
+    wikipedia:
+      required:
+        - title
+        - pageid
+        - text
+      properties:
+        title:
+          type: string
+          example: Stockholm Centralstation
+        pageid:
+          type: integer
+          example: 62217
+        text:
+          type: string
+          example: wikipedia article contents including images and hyperlinks
+    stop:
+      required:
+        - name
+        - id
+      properties:
+        name:
+          type: string
+          example: Stockholm Centralstation
+        id:
+          type: integer
+          example: 740000001
+    page:
+      required:
+        - pageid
+        - title
+        - lat
+        - lon
+        - dist
+      properties:
+        pageid:
+          type: number
+          example: 825817
+        title:
+          type: string
+          example: Stockholms centralstation
+        lat:
+          type: number
+          example: 59.3307
+        lon:
+          type: number
+          example: 18.0579
+        dist:
+          type: number
+          example: 100.0
+    wikiPathListAll:
+      properties:
+        wikiPath:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/wikiPathListAllItem'
+    wikiPathListAllItem:
+      properties:
+        "tripOriginID":
+          type: integer
+          example: 740000003
+        "tripDestinationID":
+          type: integer
+          example: 740000044
+        "ID":
+          type: integer
+          example: 1
+    wikiPath:
+      properties:
+        "tripOriginID":
+          type: integer
+          example: 740000003
+        "tripDestinationID":
+          type: integer
+          example: 740000044
+        "ID":
+          type: integer
+          example: 1
+        wikiPath:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/wikiStop'
+    wikiStop:
+      required:
+        - pages
+        - stopName
+        - queryLat
+        - queryLon
+        - departureTime
+      properties:
+        pages:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/page'
+        stopName:
+          type: string
+          example: Stockholm Centralstation
+        queryLat:
+          type: number
+          example: 59.3307
+        queryLon:
+          type: number
+          example: 18.0579
+        departureTime:
+          type: string
+          example: 19:12:00
+    parameterError:
+      required:
+        - parameter
+        - error
+      properties:
+        error:
+          type: string
+          example: stop
+        description:
+          type: string
+          example: stop not found
+    error:
+      required:
+        - error
+        - description
+      properties:
+        error:
+          type: string
+          example: not found
+        description:
+          type: string
+          example: object not found
+        parameter_error:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/parameterError'

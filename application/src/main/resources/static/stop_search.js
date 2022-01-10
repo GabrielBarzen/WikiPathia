@@ -65,16 +65,14 @@ function buttonSearchRoutePressed(){
             method: "POST",
             url: "/api/v2/wikiPaths?originID="+ origin.id + "&destinationID=" + destination.id + "&showTimes=true&numArticles=15" ,
             headers: {"Accept": "application/json"},
-        })
-            .done(function () {
+        }).done(function () {
                 var pages;
                 let getListCall = $.ajax({
                     method: "GET",
                     url: "/api/v2/wikiPaths" ,
                     headers: {"Accept": "application/json"},
                     async: false
-                })
-                    .done(function (data) {
+                }).done(function (data) {
                         console.log("data : " + data);
                         console.log(data);
                         pages = data;
