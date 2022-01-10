@@ -75,8 +75,6 @@ function buttonSearchRoutePressed(){
                     headers: {"Accept": "application/json"},
                     async: false
                 }).done(function (data) {
-                        console.log("data : " + data);
-                        console.log(data);
                         pages = data;
                         let getArticleCall = $.ajax({
                             method: "GET",
@@ -91,8 +89,6 @@ function buttonSearchRoutePressed(){
                                 initMap();
                             });
                     });
-                console.log("pages : " + pages);
-                console.log(pages);
             });
     } else {
         alert("Vänligen välj ny rutt");
