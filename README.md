@@ -36,14 +36,32 @@ Java:
 sudo pacman -S jre-openjdk
 ```
 
-### Instruktioner
+## Instruktioner
+### linux:
 #### Steg 1: klona projektet
 Kör nedståande kommandot i terminalemulator :
-- Linux :
 ```zsh
 mkdir wikipathia & git clone https://github.com/GabrielModin/WikiPathia/ ./wikipathia
 ```
-- Windows 11
+#### Steg 2: Navigera till katalogen application
+Kör nedståande kommandot i terminalemulator :
+```zsh
+cd wikipathia/application/
+```
+#### Steg 3: Hämta dependencies från pom.xml 
+Kör nedståande kommandot i terminalemulator :
+```zsh
+mvn dependency:resolve
+```
+#### Steg 4: kör applikationen 
+Kör nedståande kommandot i terminalemulator :
+```zsh
+mvn spring-boot:run
+```
+
+### Windows:
+#### Steg 1: klona projektet
+Kör nedståande kommandot i terminalemulator :
 ```zsh
 mkdir wikipathia | git clone https://github.com/GabrielModin/WikiPathia/ ./wikipathia
 ```
