@@ -23,6 +23,7 @@ Java:
 ##### <u> Ubuntu </u>
 Maven:
 - https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/
+
 Java:
 - https://techviewleo.com/install-java-openjdk-on-ubuntu-linux/
 ##### <u> Arch-based </u>
