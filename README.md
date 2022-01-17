@@ -15,14 +15,24 @@
 #### Windows
 Maven:
 - https://mkyong.com/maven/how-to-install-maven-in-windows/
+Java:
+- https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-A7E27B90-A28D-4237-9383-A58B416071CA
 #### Linux
+
 ##### Ubuntu
+Maven:
 - https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/
+Java:
+- https://techviewleo.com/install-java-openjdk-on-ubuntu-linux/
 ##### Arch-based
+Maven:
 ``` zsh
 sudo pacman -S maven
 ```
-
+Java:
+``` zsh
+sudo pacman -S jre-openjdk
+```
 
 
 
