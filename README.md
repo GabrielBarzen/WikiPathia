@@ -35,8 +35,6 @@ Java:
 sudo pacman -S jre-openjdk
 ```
 
-
-
 ### Instruktioner
 #### Steg 1: klona projektet
 Kör nedståande kommandot i terminalemulator :
