@@ -11,6 +11,21 @@
 - Java 17
 - Maven 3.8.4
 
+### Förinstallation
+#### Windows
+Maven:
+- https://mkyong.com/maven/how-to-install-maven-in-windows/
+#### Linux
+##### Ubuntu
+- https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/
+##### Arch-based
+``` zsh
+sudo pacman -S maven
+```
+
+
+
+
 ### Instruktioner
 #### Steg 1: klona projektet
 Kör nedståande kommandot i terminalemulator :
@@ -40,4 +55,4 @@ mvn spring-boot:run
 ##### Anteckningar
 - Servern körs på port 8080
 - För att komma till applikationens huvudsida skriv http://localhost:8080/ i webbläsarens adressfält
-- https://mkyong.com/maven/how-to-install-maven-in-windows/ maven instruktioner för windows
+
